@@ -1,6 +1,32 @@
 import Layout from "@/components/Layout";
+import { ChangeEvent, ChangeEventHandler, useState } from "react";
+
+const DEFAULT_FORM_DATA = {
+  title: "",
+  description: "",
+  link: "",
+  priority: "2",
+  timeToFinish: 60,
+};
 
 export default function ResourceCreate() {
+  const [form, setForm] = useState(DEFAULT_FORM_DATA);
+
+  const { title, description, link, priority, timeToFinish } = form;
+
+  const submitForm = () => {
+    console.log(JSON.stringify(form));
+  };
+
+  const handleChange = (
+    event: ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) =>
+    setForm((prevValue) => {
+      return { ...prevValue, [event.target.name]: event.target.value };
+    });
+
   return (
     <Layout>
       <div className="container">
@@ -16,6 +42,9 @@ export default function ResourceCreate() {
                       className="input"
                       type="text"
                       placeholder="Title input"
+                      value={title}
+                      name="title"
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -25,6 +54,9 @@ export default function ResourceCreate() {
                     <textarea
                       className="textarea"
                       placeholder="Description input"
+                      value={description}
+                      name="description"
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -35,6 +67,9 @@ export default function ResourceCreate() {
                       className="input"
                       type="text"
                       placeholder="https://..."
+                      value={link}
+                      name="link"
+                      onChange={handleChange}
                     />
                   </div>
                 </div>
@@ -42,8 +77,11 @@ export default function ResourceCreate() {
                   <label className="label">Priority</label>
                   <div className="control">
                     <div className="select">
-                      <select>
-                        <option>Select dropdown</option>
+                      <select
+                        value={priority}
+                        name="priority"
+                        onChange={handleChange}
+                      >
                         <option>1</option>
                         <option>2</option>
                         <option>3</option>
@@ -57,16 +95,23 @@ export default function ResourceCreate() {
                     <input
                       className="input"
                       type="number"
-                      placeholder="60 (time in minutes)"
+                      placeholder="60"
+                      value={timeToFinish}
+                      name="timeToFinish"
+                      onChange={handleChange}
                     />
                   </div>
+                  <p className="help">Time in minutes</p>
                 </div>
                 <div className="field is-grouped">
                   <div className="control">
-                    <button className="button is-link">Submit</button>
-                  </div>
-                  <div className="control">
-                    <button className="button is-link is-light">Cancel</button>
+                    <button
+                      type="button"
+                      onClick={submitForm}
+                      className="button is-link"
+                    >
+                      Submit
+                    </button>
                   </div>
                 </div>
               </form>
