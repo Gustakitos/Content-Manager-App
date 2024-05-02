@@ -1,3 +1,4 @@
+import cors from "cors";
 import express from "express";
 import { Router, Request, Response } from 'express';
 import { readFileSync } from "fs";
@@ -10,7 +11,7 @@ const app = express();
 const PORT = 3001;
 
 const route = Router()
-
+app.use(cors());
 app.use(express.json())
 
 route.get('/', (req: Request, res: Response) => {
