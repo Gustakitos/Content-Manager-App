@@ -1,5 +1,7 @@
 import Layout from "@/components/Layout";
-import { ChangeEvent, ChangeEventHandler, useState } from "react";
+import axios from "axios";
+import { useRouter } from "next/router";
+import { ChangeEvent, useState } from "react";
 
 const DEFAULT_FORM_DATA = {
   title: "",
@@ -11,11 +13,15 @@ const DEFAULT_FORM_DATA = {
 
 export default function ResourceCreate() {
   const [form, setForm] = useState(DEFAULT_FORM_DATA);
+  const router = useRouter();
 
   const { title, description, link, priority, timeToFinish } = form;
 
   const submitForm = () => {
-    console.log(JSON.stringify(form));
+    axios
+      .post("/api/resources", form)
+      .then(_ => router.push("/"))
+      .catch((err) => console.log("error: ", err));
   };
 
   const handleChange = (
