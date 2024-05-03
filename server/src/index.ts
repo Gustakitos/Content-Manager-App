@@ -26,7 +26,14 @@ route.get('/api/resources', (req, res) => {
   res.send(data);
 })
 
-route.post('/api/resources', (req, res) => {
+route.get("/api/resources/:id", (req: Request, res: Response) => {
+  const resources = getResources();
+  const { id } = req.params;
+  const resource = resources.find(resource => resource.id === id);
+  res.send(resource);
+})
+
+route.post('/api/resources', (req: Request, res: Response) => {
   const resources = getResources();
   const newResource = req.body;
 
